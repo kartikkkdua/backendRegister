@@ -21,7 +21,7 @@ app.use(json())
 
 config({ path: './.env' })
 
-// connectDB()
+connectDB()
 
 //Routes
 app.use('/api/v1/register', registerRoute)
