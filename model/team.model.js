@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 import { memberSchema } from './member.model.js';
 
-export const teamSchema = new Schema({
+export const teamSchema = new mongoose.Schema({
   teamName: {
     type: String,
     required: true,
@@ -70,16 +70,26 @@ export const teamSchema = new Schema({
     type: String,
     required: true
   },
+  
   //teamid generate, consecutive, separate for the 4 events. 
   //save all the team ids in the main teams collection
 }, {
-  timestamps: true
+  timestamps: true,
 })
 
 teamSchema.methods.generatePassword = function(length) {
-  const buffer = randomBytes(length);
-  const base64String = buffer.toString('base64');
-  return base64String.replace(/[^a-zA-Z0-9]/g, '').slice(0, length);
+  const password = crypto.randomBytes(length).toString('base64').replace(/[^a-zA-Z0-9]/g, '').slice(0, length);
+  const salt = crypto.randomBytes(16).toString('hex');
+  const passwordHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
+
+  return { password, salt, passwordHash };
+};
+
+teamSchema.methods.validatePassword = function(password) {
+  const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'sha512').toString('hex');
+  return this.passwordHash === hash;
 }
 
-export const Team = model('Team', teamSchema)
+export const Team = mongoose.model('Team', teamSchema)
+
+// Persona personaid + teamid , pixelPerfect, Innovation, drishya - 

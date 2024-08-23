@@ -3,9 +3,11 @@ import { config } from 'dotenv';
 import cors from 'cors';
 import { connectDB } from './database.js';
 import paymentRoute from './routes/payment.routes.js';
+import verifyPaymentAndSaveRoute from './routes/verifyPaymentAndSave.routes.js';
 import AdminJS from 'adminjs';
 import AdminJSExpress from '@adminjs/express';
-import verifyPaymentAndSaveRoute from './routes/verifyPaymentAndSave.routes.js'
+import {Resource, Database} from '@adminjs/mongoose'; // Import the mongoose adapter
+import { Team } from './model/team.model.js';
 
 const app = express();
 
@@ -27,19 +29,26 @@ app.use(urlencoded({
 
 app.use(json());
 
+// Register AdminJS with Mongoose adapter
+AdminJS.registerAdapter({
+  Resource: Resource,
+  Database: Database,
+});
+
 // Start AdminJS
 const admin = new AdminJS({
-  resources: [],
+  resources: [Team],  
   rootPath: '/admin',
-})
+});
 
-const adminRouter = AdminJSExpress.buildRouter(admin)
-app.use(admin.options.rootPath, adminRouter)
+const adminRouter = AdminJSExpress.buildRouter(admin);
+app.use(admin.options.rootPath, adminRouter);
 
 // Routes
 app.use('/api/v1', paymentRoute);
 app.use('/api/v1', verifyPaymentAndSaveRoute);
 
+// Start server
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running on port ${process.env.PORT || 5000}`);
-})
+});
