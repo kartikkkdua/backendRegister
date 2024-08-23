@@ -9,7 +9,7 @@ export const memberSchema = new Schema({
     type: String,
     required: true
   },
-  rollNo: {
+  degree: {
     type: String,
     required: true
   },
@@ -17,11 +17,7 @@ export const memberSchema = new Schema({
     type: String,
     required: true
   },
-  degree: {
-    type: String,
-    required: true
-  },
-  field: {
+  phoneNumber: {
     type: String,
     required: true
   },
