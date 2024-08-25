@@ -106,7 +106,7 @@ export const verifyAndSave = async (req, res) => {
   
       <p style="font-size: 16px; color: #333333; margin-top: 30px;">Please keep this email safe for your reference. We look forward to an amazing event experience together!</p>
   
-      <p style="font-size: 16px; color: #333333; margin-top: 20px;">Best regards,<br><strong>UPES-CSI</strong></p>
+      <p style="font-size: 16px; color: #333333; margin-top: 20px;">Best regards,<br><strong>Team UPES-CSI</strong></p>
     </div>
     <div style="background-color: #f7f7f7; padding: 20px; text-align: center; border-radius: 0 0 10px 10px; color: #888888;">
       <p style="font-size: 14px; margin: 0;">For any queries, reach out to us at <a href="mailto:yugmak3.0@upescsi.in" style="color: #28a745; text-decoration: none;">yugmak3.0@upescsi.in</a>.</p>
