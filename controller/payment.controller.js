@@ -10,8 +10,8 @@ const razorpayInstance = new Razorpay({
 });
 
 const registerUser = async (req, res) => {
-    const { amount, currency } = req.body;
-    const options = { amount, currency, receipt: 'devnexxr@gmail.com' };
+    const { amount, currency, receipt } = req.body;
+    const options = { amount, currency, receipt };
     try {
         const newOrder = await razorpayInstance.orders.create(options);
         if(!newOrder.status === "created") {

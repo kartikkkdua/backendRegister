@@ -1,47 +1,47 @@
 import mongoose from 'mongoose';
 import { memberSchema } from './member.model.js';
+import crypto from 'crypto';
 
 export const teamSchema = new mongoose.Schema({
   teamName: {
     type: String,
-    required: true,
+    // required: true,
     unique: true,
   },
   leaderName: {
     type: String,
-    required: true
+    // required: true
   },
   password: {
     type: String,
   },
   email: {
     type: String,
-    required: true
+    // required: true
   },
   sapId: {
     type: String,
-    required: true
+    // required: true
   },
   degree: {
     type: String,
-    required: true
+    // required: true
   },
   yearOfStudy: {
     type: String,
-    required: true
+    // required: true
   },
   phoneNumber: {
     type: String,
-    required: true
+    // required: true
   },
   alternateNumber: {
     type: String,
-    required: true
+    // required: true
   },
   primeMember: {
     type: String,
-    enum: ['Yes', 'No'],
-    required: true
+    // required: true
   },
   primeId: {
     type: String,
@@ -49,26 +49,32 @@ export const teamSchema = new mongoose.Schema({
   },
   selectedEvents: {
     type: [String],
-    required: true
+    // required: true
   },
   strength: {
     type: String,
-    required: true
+    // required: true
   },
   teamMembers: {
     type: [memberSchema], 
   },
   transactionId: {
     type: String,
-    required: true
+    // required: true
   },
   totalAmount: {
     type: String,
-    required: true
+    // required: true
   },
   paymentSignature: {
     type: String,
-    required: true
+    // required: true
+  },
+  passwordHash: {
+    type: String,
+  },
+  salt: {
+    type: String,
   },
   
   //teamid generate, consecutive, separate for the 4 events. 
