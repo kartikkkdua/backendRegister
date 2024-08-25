@@ -3,26 +3,26 @@ import { Schema, model } from 'mongoose';
 export const memberSchema = new Schema({
   name: {
     type: String,
-    required: true
+    // required: true
   },
   sapId: {
     type: String,
-    required: true
+    // required: true
   },
   degree: {
     type: String,
-    required: true
+    // required: true
   },
   yearOfStudy: {
     type: String,
-    required: true
+    // required: true
   },
   phoneNumber: {
     type: String,
-    required: true
+    // required: true
   },
   email: {
     type: String,
-    required: true
+    // required: true
   },
 })
