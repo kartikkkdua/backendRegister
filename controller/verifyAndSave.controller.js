@@ -3,6 +3,8 @@ import crypto from 'crypto';
 import { sendEmail } from '../sendEmail.js'
 import { config } from 'dotenv';
 import { generateHexCode } from '../generatePassword.js';
+import { Counter } from '../model/counter.model.js';
+import { DrishyaEvent, PersonaEvent, ArenaEvent, InnovationEvent } from '../model/event.model.js';
 
 config({ path: './.env' });
 
@@ -24,10 +26,10 @@ export const verifyAndSave = async (req, res) => {
   const { teamName, leaderName, email, sapId, degree, yearOfStudy, phoneNumber, alternateNumber, primeMember, selectedEvents, strength, teamMembers, transactionId, totalAmount } = req.body;
 
   try {
-    
+
     //generate 4 event ids
 
-    
+
     const newTeam = new Team({
       teamName,
       leaderName,
@@ -46,15 +48,102 @@ export const verifyAndSave = async (req, res) => {
       paymentSignature: signature,
     });
 
-    const { password, passwordHash, salt} = newTeam.generatePassword(8);
+    const { password, passwordHash, salt } = newTeam.generatePassword(8);
     newTeam.passwordHash = passwordHash;
     newTeam.salt = salt;
 
     const savedTeam = await newTeam.save();
-    if(!savedTeam) {
+
+    if (!savedTeam) {
       return res.status(500).json({ success: false, message: 'Error while registering team to the database' });
     }
-    
+
+    for (const event of selectedEvents) {
+      let counter, eventId;
+
+      switch (event) {
+        case 'Drishय':
+          counter = await Counter.findOneAndUpdate(
+            { eventType: 'drishya' },
+            { $inc: { count: 1 } },
+            { new: true, upsert: true }
+          );
+
+          // Generate the event ID for DrishyaEvent
+          eventId = `Drishya${counter.count}`;
+
+          // Create a new document in DrishyaEvent model
+          const drishyaEvent = new DrishyaEvent({
+            drishyaId: eventId,
+            teamId: newTeam._id, // Reference to the newly created team
+          });
+
+          await drishyaEvent.save();
+          break;
+
+        case 'ARENA 3.0':
+          counter = await Counter.findOneAndUpdate(
+            { eventType: 'arena' },
+            { $inc: { count: 1 } },
+            { new: true, upsert: true }
+          );
+
+          // Generate the event ID for ArenaEvent
+          eventId = `Arena${counter.count}`;
+
+          // Create a new document in ArenaEvent model
+          const arenaEvent = new ArenaEvent({
+            arenaId: eventId,
+            teamId: newTeam._id,
+          });
+
+          await arenaEvent.save();
+          break;
+
+        case 'INNOVAक्षण':
+          counter = await Counter.findOneAndUpdate(
+            { eventType: 'innovation' },
+            { $inc: { count: 1 } },
+            { new: true, upsert: true }
+          );
+
+          // Generate the event ID for InnovationEvent
+          eventId = `Inno${counter.count}`;
+
+          // Create a new document in InnovationEvent model
+          const innovationEvent = new InnovationEvent({
+            innovationId: eventId,
+            teamId: newTeam._id,
+          });
+
+          await innovationEvent.save();
+          break;
+
+        case 'PERSONA':
+          counter = await Counter.findOneAndUpdate(
+            { eventType: 'persona' },
+            { $inc: { count: 1 } },
+            { new: true, upsert: true }
+          );
+
+          // Generate the event ID for PersonaEvent
+          eventId = `Persona${counter.count}`;
+
+          // Create a new document in PersonaEvent model
+          const personaEvent = new PersonaEvent({
+            personaId: eventId,
+            teamId: newTeam._id,
+          });
+
+          await personaEvent.save();
+          break;
+
+        default:
+          console.warn(`Unknown event type: ${event}`);
+          break;
+      }
+    }
+
     console.log('Team Registered Successfully:', savedTeam);
 
     // Generate a token after successful registration
@@ -83,7 +172,9 @@ export const verifyAndSave = async (req, res) => {
         </tr>
         <tr style="background-color: #f9f9f9;">
           <td style="padding: 10px; border: 1px solid #e0e0e0;"><strong>Team Members:</strong></td>
-          <td style="padding: 10px; border: 1px solid #e0e0e0;">${teamMembers.join(', ')}</td>
+          <td style="padding: 10px; border: 1px solid #e0e0e0;">${teamMembers.map((item) => {
+            return `<strong>${item.name}</strong> (${item.sapId})`
+          }).join(', ')}</td>
         </tr>
         <tr>
           <td style="padding: 10px; border: 1px solid #e0e0e0;"><strong>Selected Events:</strong></td>
@@ -123,5 +214,5 @@ export const verifyAndSave = async (req, res) => {
   } catch (err) {
     console.error('Error while registering team:', err);
     res.status(500).json({ success: false, message: `Internal Server Error, ${err}` });
-}
+  }
 }
