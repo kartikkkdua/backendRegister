@@ -9,6 +9,7 @@ import AdminJSExpress from '@adminjs/express';
 import {Resource, Database} from '@adminjs/mongoose'; // Import the mongoose adapter
 import { Team } from './model/team.model.js';
 import checkTeamName from  './routes/checkTeamName.routes.js';
+import checkPrimeId from './routes/checkPrimeId.routes.js'
 
 const app = express();
 
@@ -49,6 +50,7 @@ app.use(admin.options.rootPath, adminRouter);
 app.use('/api/v1', paymentRoute);
 app.use('/api/v1', verifyPaymentAndSaveRoute);
 app.use('/api/v1', checkTeamName);
+app.use('/api/v1', checkPrimeId)
 
 // Start server
 app.listen(process.env.PORT || 5000, () => {

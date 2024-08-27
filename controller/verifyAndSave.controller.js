@@ -39,7 +39,8 @@ export const verifyAndSave = async (req, res) => {
       yearOfStudy,
       phoneNumber,
       alternateNumber,
-      primeMember,
+      isPrimeMember,
+      primeId,
       selectedEvents,
       strength,
       teamMembers,
@@ -48,6 +49,9 @@ export const verifyAndSave = async (req, res) => {
       paymentSignature: signature,
     });
 
+    if(!isPrimeMember) {
+
+    }
     const { password, passwordHash, salt } = newTeam.generatePassword(8);
     newTeam.passwordHash = passwordHash;
     newTeam.salt = salt;
