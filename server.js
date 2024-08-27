@@ -49,7 +49,8 @@ app.use(admin.options.rootPath, adminRouter);
 // Routes
 app.use('/api/v1', paymentRoute);
 app.use('/api/v1', verifyPaymentAndSaveRoute);
-app.use("/api/v1", checkTeamName);
+app.use('/api/v1', checkTeamName);
+app.use('/api/v1', checkPrimeId)
 
 // Start server
 app.listen(process.env.PORT || 5000, () => {

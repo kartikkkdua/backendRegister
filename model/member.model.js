@@ -25,4 +25,10 @@ export const memberSchema = new Schema({
     type: String,
     // required: true
   },
+  isPrimeMember: {
+    type: String,
+  },
+  primeId: {
+    type: String,
+  }
 })
