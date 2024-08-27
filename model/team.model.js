@@ -39,7 +39,7 @@ export const teamSchema = new mongoose.Schema({
     type: String,
     // required: true
   },
-  primeMember: {
+  isPrimeMember: {
     type: String,
     // required: true
   },
