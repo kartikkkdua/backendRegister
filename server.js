@@ -11,6 +11,8 @@ import { Team } from './model/team.model.js';
 import { ArenaEvent, DrishyaEvent, InnovationEvent, PersonaEvent } from './model/event.model.js';
 import checkTeamName from "./routes/checkTeamName.routes.js";
 import checkPrimeId from "./routes/checkPrimeId.routes.js";
+import findTeams from './routes/findTeams.routes.js';
+
 const app = express();
 
 // Environment Variables
@@ -50,7 +52,8 @@ app.use(admin.options.rootPath, adminRouter);
 app.use('/api/v1', paymentRoute);
 app.use('/api/v1', verifyPaymentAndSaveRoute);
 app.use('/api/v1', checkTeamName);
-app.use('/api/v1', checkPrimeId)
+app.use('/api/v1', checkPrimeId);
+app.use('/api/v1', findTeams)
 
 // Start server
 app.listen(process.env.PORT || 5000, () => {

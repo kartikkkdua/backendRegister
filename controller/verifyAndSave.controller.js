@@ -4,7 +4,7 @@ import { sendEmail } from '../sendEmail.js'
 import { config } from 'dotenv';
 import { generateHexCode } from '../generatePassword.js';
 import { Counter } from '../model/counter.model.js';
-import { DrishyaEvent, PersonaEvent, ArenaEvent, InnovationEvent } from '../model/event.model.js';
+import { DrishyaEvent, PersonaEvent, ArenaEvent, InnovationEvent, ValorantEvent } from '../model/event.model.js';
 import { Coupon } from '../model/coupon.model.js';
 
 config({ path: './.env' });
@@ -200,26 +200,26 @@ export const verifyAndSave = async (req, res) => {
 
           await personaEvent.save();
           break;
-        
-        case 'Valorant':
-          counter = await Counter.findOneAndUpdate(
-            { eventType: 'valorant' },
-            { $inc: { count: 1 } },
-            { new: true, upsert: true }
-          );
 
-          // Generate the event ID for ValorantEvent
-          eventId = `Valorant${counter.count}`;
+          case 'Valorant':
+            counter = await Counter.findOneAndUpdate(
+              { eventType: 'valorant' },
+              { $inc: { count: 1 } },
+              { new: true, upsert: true }
+            );
+      
+            // Generate the event ID for ValorantEvent
+            eventId = `Valorant${counter.count}`;
+      
+            // Create a new document in ValorantEvent model
+            const valorantEvent = new ValorantEvent({
+              valorantId: eventId,
+              teamId: newTeam._id,
+            });
+      
+            await valorantEvent.save();
+            break;
 
-          // Create a new document in ValorantEvent model
-          const valorantEvent = new ValorantEvent({
-            valorantId: eventId,
-            teamId: newTeam._id,
-          });
-
-          await valorantEvent.save();
-          break;
-          
         default:
           console.warn(`Unknown event type: ${event}`);
           break;

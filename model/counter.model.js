@@ -18,7 +18,7 @@ export const Counter = model('Counter', counterSchema);
 
 
 export const initializeCounters = async () => {
-  const eventTypes = ['drishya', 'arena', 'innovation', 'persona'];
+  const eventTypes = ['drishya', 'arena', 'innovation', 'persona', 'valorant'];
 
   for (const eventType of eventTypes) {
     await Counter.updateOne(

@@ -71,41 +71,6 @@ arenaEventSchema.pre('save', async function (next) {
 
 export const ArenaEvent = model('Arena', arenaEventSchema);
 
-// valorant Event Schema
-const valorantEventSchema = new Schema({
-  valorantId: {
-    type: String,
-    unique: true
-  },
-  teamId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Team',
-    required: true
-  }
-});
-
-valorantEventSchema.pre('save', async function (next) {
-  const doc = this;
-
-  if (!doc.valorantId) {
-    try {
-      const counter = await Counter.findOneAndUpdate(
-        { eventType: 'valorant' },
-        { $inc: { count: 1 } },
-        { new: true, upsert: true }
-      );
-      doc.valorantId = `Valorant${counter.count}`;
-      next();
-    } catch (err) {
-      next(err);
-    }
-  } else {
-    next();
-  }
-});
-
-export const ValorantEvent = model('Valorant', valorantEventSchema);
-
 
 // Innovation Event Schema
 const innovationEventSchema = new Schema({
@@ -176,3 +141,37 @@ personaEventSchema.pre('save', async function (next) {
 });
 
 export const PersonaEvent = model('Persona', personaEventSchema);
+
+const valorantEventSchema = new Schema({
+  valorantId: {
+    type: String,
+    unique: true
+  },
+  teamId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Team',
+    required: true
+  }
+});
+
+valorantEventSchema.pre('save', async function (next) {
+  const doc = this;
+
+  if (!doc.valorantId) {
+    try {
+      const counter = await Counter.findOneAndUpdate(
+        { eventType: 'valorant' },  // Event type for the counter
+        { $inc: { count: 1 } },    // Increment count
+        { new: true, upsert: true } // Create a new counter document if it doesn't exist
+      );
+      doc.valorantId = `Valorant${counter.count}`;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    next();
+  }
+});
+
+export const ValorantEvent = model('Valorant', valorantEventSchema);
