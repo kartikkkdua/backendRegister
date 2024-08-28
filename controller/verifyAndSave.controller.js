@@ -200,7 +200,26 @@ export const verifyAndSave = async (req, res) => {
 
           await personaEvent.save();
           break;
+        
+        case 'Valorant':
+          counter = await Counter.findOneAndUpdate(
+            { eventType: 'valorant' },
+            { $inc: { count: 1 } },
+            { new: true, upsert: true }
+          );
 
+          // Generate the event ID for ValorantEvent
+          eventId = `Valorant${counter.count}`;
+
+          // Create a new document in ValorantEvent model
+          const valorantEvent = new ValorantEvent({
+            valorantId: eventId,
+            teamId: newTeam._id,
+          });
+
+          await valorantEvent.save();
+          break;
+          
         default:
           console.warn(`Unknown event type: ${event}`);
           break;

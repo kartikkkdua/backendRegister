@@ -5,12 +5,15 @@ export const checkPrimeId = async (req, res) => {
   const { primeId, selectedEvents, teamMembers } = req.body;
 
     const allPrimeIds = teamMembers
-      .filter(user => user.isPrimeMember)
-      .map(user => user.primeId);
-
+      .filter((user) => user.primeMember)
+      .map((user) => user.primeId);
+    
+    console.log(req.body);
+    console.log(allPrimeIds);
     if(primeId) {
       allPrimeIds.push(primeId);
     }
+    console.log(allPrimeIds);
 
     if(!allPrimeIds.length) {
       return res.status(204).json({ success: true, message: 'No Prime ids sent, user can register normally' });
@@ -29,15 +32,22 @@ export const checkPrimeId = async (req, res) => {
           { 'teamMembers.primeId': id }
         ]
       });
+      
+
 
       if (isUserInEvent) {
+        
         for (const event of selectedEvents) {
           if (isUserInEvent.selectedEvents.includes(event)) {
-            return res.status(409).json({ success: false, message: `Prime id ${id} already registered for event ${event} for team ${isUserInEvent.teamName}`  }); 
+            return res.status(409).json({ success: false, message: `Prime id ${id} already registered for event ${event} for team ${isUserInEvent.teamName}`, memberallowed: isUserInEvent.teamMembers }, ); 
           }
         }
       }
     }
+    // check if all prime ids can be registered in the selected events
 
-    return res.status(200).json({ success: true, message: `${allPrimeIds.join(', ')} can be registered in the events: ${selectedEvents.join(', ')}` }); 
+    return res.status(200).json({ success: true,
+      // array of ids
+      primeIds: allPrimeIds,
+     }); 
 }
