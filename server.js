@@ -10,6 +10,7 @@ import {Resource, Database} from '@adminjs/mongoose'; // Import the mongoose ada
 import { Team } from './model/team.model.js';
 import { ArenaEvent, DrishyaEvent, InnovationEvent, PersonaEvent } from './model/event.model.js';
 import checkTeamName from "./routes/checkTeamName.routes.js";
+import checkPrimeId from './routes/checkPrimeId.routes.js'
 
 const app = express();
 

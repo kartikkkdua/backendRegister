@@ -12,8 +12,10 @@ export const checkPrimeId = async (req, res) => {
       allPrimeIds.push(primeId);
     }
 
-    if(!allPrimeIds.length) {
+    if (!allPrimeIds.length) {
       return res.status(204).json({ success: true, message: 'No Prime ids sent, user can register normally' });
+    } else if (allPrimeIds.every(id => id === '')) {
+      return res.status(204).json({ success: true, message: 'Prime ids are empty, user can register normally' });
     }
 
     const primeIds = PrimeIdJson.PrimeIds;
