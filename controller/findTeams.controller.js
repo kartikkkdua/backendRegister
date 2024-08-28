@@ -32,7 +32,7 @@ export const findTeams = async(req, res) => {
       transactionId: team.transactionId,
       totalAmount: team.totalAmount,
       paymentSignature: team.paymentSignature,
-      teamMembers: team.teamMembers.map(member => member.memberName).join(', '), 
+      teamMembers: team.teamMembers.map(member => member).join(', '), 
     }));
 
     const fields = [
