@@ -213,8 +213,6 @@ export const cashPayment = async (req, res) => {
 
     console.log('Team Registered Successfully:', savedTeam);
 
-    // Generate a token after successful registration
-    const token = generateHexCode(transactionId, process.env.PROTECTED_ROUTE_SECRET)
 
     // Sending Email after successful team registration
     const emailSubject = 'Payment Successful and Team Registration Confirmation';
@@ -276,7 +274,7 @@ export const cashPayment = async (req, res) => {
 
     sendEmail(email, emailSubject, emailText);
 
-    res.json({ success: true, message: 'Team Registered Successfully', token });
+    res.json({ success: true, message: 'Team Registered Successfully' });
 
   } catch (err) {
     console.error('Error while registering team:', err);

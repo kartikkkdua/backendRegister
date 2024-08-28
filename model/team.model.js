@@ -81,6 +81,7 @@ teamSchema.methods.generatePassword = function(length) {
 };
 
 teamSchema.methods.validatePassword = function(password) {
+  if (!this.salt || !this.passwordHash) return false;
   const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'sha512').toString('hex');
   return this.passwordHash === hash;
 }

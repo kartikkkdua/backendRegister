@@ -1,4 +1,4 @@
-import PrimeIdJson from '../primeId.json' assert { type: 'json' };
+import PrimeIdJson from '../primeId.json' with { type: 'json' };
 import { Team } from '../model/team.model.js';
 
 export const checkPrimeId = async (req, res) => {
