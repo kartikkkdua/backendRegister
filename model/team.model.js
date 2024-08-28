@@ -76,7 +76,9 @@ export const teamSchema = new mongoose.Schema({
   salt: {
     type: String,
   },
-  
+  paymentMode: {
+    type: String,
+  }
   //teamid generate, consecutive, separate for the 4 events. 
   //save all the team ids in the main teams collection
 }, {

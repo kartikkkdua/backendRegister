@@ -9,22 +9,7 @@ import { Coupon } from '../model/coupon.model.js';
 
 config({ path: './.env' });
 
-export const verifyAndSave = async (req, res) => {
-  // Payment Signature Verification
-  const { paymentId, orderId } = req.body;
-  const signature = req.headers['signature'];
-
-  const body = orderId + "|" + paymentId;
-
-  const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET_KEY)
-    .update(body.toString())
-    .digest('hex');
-  if (!(signature === expectedSignature)) {
-    return res.status(400).json({ message: 'Invalid Signature' });
-  }
-
-  console.log('Signature Verified');
-
+export const cashPayment = async (req, res) => {
   const { teamName, leaderName, email, sapId, degree, yearOfStudy, phoneNumber, alternateNumber, isPrimeMember,
     primeId, selectedEvents, strength, teamMembers, transactionId, totalAmount } = req.body;
 
@@ -106,10 +91,8 @@ export const verifyAndSave = async (req, res) => {
       selectedEvents,
       strength,
       teamMembers,
-      transactionId,
       totalAmount,
-      paymentSignature: signature,
-      paymentMode: 'Razorpay',
+      paymentMode: 'Cash',
     });
 
     const { password, passwordHash, salt } = newTeam.generatePassword(8);
