@@ -26,7 +26,7 @@ export const verifyAndSave = async (req, res) => {
   console.log('Signature Verified');
 
   const { teamName, leaderName, email, sapId, degree, yearOfStudy, phoneNumber, alternateNumber, isPrimeMember,
-    primeId, selectedEvents, strength, teamMembers, transactionId, totalAmount } = req.body;
+    isUPESStudent, primeId, selectedEvents, strength, teamMembers, transactionId, totalAmount } = req.body;
 
   // Send coupon to non-prime members
   const notPrimeMembers = [];
@@ -108,6 +108,7 @@ export const verifyAndSave = async (req, res) => {
       teamMembers,
       transactionId,
       totalAmount,
+      isUPESStudent,
       paymentSignature: signature,
       paymentMode: 'Razorpay',
     });

@@ -5,43 +5,37 @@ import crypto from 'crypto';
 export const teamSchema = new mongoose.Schema({
   teamName: {
     type: String,
-    // required: true,
     unique: true,
   },
   leaderName: {
     type: String,
-    // required: true
   },
   password: {
     type: String,
   },
   email: {
     type: String,
-    // required: true
   },
   sapId: {
     type: String,
-    // required: true
   },
   degree: {
     type: String,
-    // required: true
   },
   yearOfStudy: {
     type: String,
-    // required: true
   },
   phoneNumber: {
     type: String,
-    // required: true
   },
   alternateNumber: {
     type: String,
-    // required: true
+  },
+  isUPESStudent: {
+    type: String,
   },
   isPrimeMember: {
     type: String,
-    // required: true
   },
   primeId: {
     type: String,
@@ -49,26 +43,21 @@ export const teamSchema = new mongoose.Schema({
   },
   selectedEvents: {
     type: [String],
-    // required: true
   },
   strength: {
     type: String,
-    // required: true
   },
   teamMembers: {
     type: [memberSchema], 
   },
   transactionId: {
     type: String,
-    // required: true
   },
   totalAmount: {
     type: String,
-    // required: true
   },
   paymentSignature: {
     type: String,
-    // required: true
   },
   passwordHash: {
     type: String,
@@ -79,8 +68,6 @@ export const teamSchema = new mongoose.Schema({
   paymentMode: {
     type: String,
   }
-  //teamid generate, consecutive, separate for the 4 events. 
-  //save all the team ids in the main teams collection
 }, {
   timestamps: true,
 })

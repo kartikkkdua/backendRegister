@@ -11,7 +11,7 @@ config({ path: './.env' });
 
 export const cashPayment = async (req, res) => {
   const { teamName, leaderName, email, sapId, degree, yearOfStudy, phoneNumber, alternateNumber, isPrimeMember,
-    primeId, selectedEvents, strength, teamMembers, transactionId, totalAmount } = req.body;
+    isUPESStudent, primeId, selectedEvents, strength, teamMembers, transactionId, totalAmount } = req.body;
 
   // Send coupon to non-prime members
   const notPrimeMembers = [];
@@ -90,6 +90,7 @@ export const cashPayment = async (req, res) => {
       primeId,
       selectedEvents,
       strength,
+      isUPESStudent,
       teamMembers,
       totalAmount,
       paymentMode: 'Cash',
