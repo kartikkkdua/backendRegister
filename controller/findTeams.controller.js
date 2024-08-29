@@ -32,7 +32,16 @@ export const findTeams = async(req, res) => {
       transactionId: team.transactionId,
       totalAmount: team.totalAmount,
       paymentSignature: team.paymentSignature,
-      teamMembers: team.teamMembers.map(member => member).join(', '), 
+      teamMembers: team.teamMembers.map(member => ({
+        name: member.name,
+        sapId: member.sapId,
+        degree: member.degree,
+        yearOfStudy: member.yearOfStudy,
+        phoneNumber: member.phoneNumber,
+        email: member.email,
+        isPrimeMember: member.isPrimeMember,
+        primeId: member.primeId
+      }))
     }));
 
     const fields = [
@@ -57,14 +66,7 @@ export const findTeams = async(req, res) => {
       { label: 'Payment Signature', value: 'paymentSignature' },
       {
         label: 'Team Members',
-        value: row => {
-          if (Array.isArray(row.teamMembers) && row.teamMembers.length > 0) {
-            return row.teamMembers.map(member => 
-              teamMembersFields.map(field => `${field}: ${member[field] || ''}`).join(', ')
-            ).join(' | ');
-          }
-          return 'No members';
-        },
+        value: 'teamMembers'
       },
     ];
 
