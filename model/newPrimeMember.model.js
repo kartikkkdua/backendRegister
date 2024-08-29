@@ -67,9 +67,9 @@ const newPrimeMemberSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  Coupon:{
+  coupon:{
     type: String,
-    equired: false,
+    required: false,
   },
   transactionId: {
     type: String,
